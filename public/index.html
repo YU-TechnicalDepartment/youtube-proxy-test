@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Proxy Service</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #f9f9f9;
+      }
+      h1 {
+        text-align: center;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      input[type="text"] {
+        padding: 8px;
+        font-size: 1em;
+      }
+      button {
+        padding: 10px;
+        font-size: 1em;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>YouTube 動画プロキシ</h1>
+    <form action="/video" method="get">
+      <label for="url">動画のURLを入力してください:</label>
+      <input type="text" id="url" name="url" placeholder="https://www.youtube.com/watch?v=xxxx" required>
+      <button type="submit">動画を見る</button>
+    </form>
+  </body>
+</html>
