@@ -4,7 +4,7 @@ const path = require('path');
 
 const app = express();
 
-// publicフォルダ内の静的ファイル（HTML、CSS、画像など）を配信
+// publicフォルダ内の静的ファイルを配信
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/video', (req, res) => {
@@ -13,16 +13,20 @@ app.get('/video', (req, res) => {
     return res.status(400).send('正しい動画URLを指定してください');
   }
 
-  // ファイル名は固定にしておく（例: "video.mp4"）
+  // ファイル名は固定にしておく
   res.setHeader('Content-Disposition', 'inline; filename="video.mp4"');
+
+  // ここで quality オプションを 'highest' に変更（状況に応じて調整）
+  const videoStream = ytdl(videoUrl, { quality: 'highest' });
   
-  // 直接動画をストリーミング
-  ytdl(videoUrl, { quality: 'highestvideo' })
-    .on('error', err => {
-      console.error('ストリーミングエラー:', err);
+  videoStream.pipe(res);
+
+  videoStream.on('error', err => {
+    console.error('ストリーミングエラー:', err);
+    if (!res.headersSent) {
       res.status(500).send('動画の取得中にエラーが発生しました');
-    })
-    .pipe(res);
+    }
+  });
 });
 
 const PORT = process.env.PORT || 3000;
